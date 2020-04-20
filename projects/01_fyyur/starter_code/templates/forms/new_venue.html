@@ -1,6 +1,9 @@
 {% extends 'layouts/main.html' %}
 {% block title %}New Venue{% endblock %}
 {% block content %}
+<style>
+  textarea{resize:vertical;}
+</style>
   <div class="form-wrapper">
     <form method="post" class="form">
       <h3 class="form-heading">List a new venue <a href="{{ url_for('index') }}" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
@@ -33,8 +36,24 @@
         {{ form.genres(class_ = 'form-control', placeholder='Genres, separated by commas', id=form.state, autofocus = true) }}
       </div>
       <div class="form-group">
-          <label for="genres">Facebook Link</label>
-          {{ form.facebook_link(class_ = 'form-control', placeholder='http://', id=form.state, autofocus = true) }}
+          <label for="image_link">Image Link</label>
+          {{ form.image_link(class_ = 'form-control', placeholder='http://',  autofocus = true) }}
+        </div>
+      <div class="form-group">
+          <label for="website">Website Link</label>
+          {{ form.website(class_ = 'form-control', placeholder='http://',  autofocus = true) }}
+        </div>
+      <div class="form-group">
+          <label for="facebook_link">Facebook Link</label>
+          {{ form.facebook_link(class_ = 'form-control', placeholder='http://',  autofocus = true) }}
+        </div>
+        <div class="form-group">
+          <label for="seeking_talent">Seeking Talent ?</label>
+          {{ form.seeking_talent(class_ = 'form-control', autofocus = true) }}
+        </div>
+        <div class="form-group">
+          <label for="seeking_description">Seeking Description</label>
+          {{ form.seeking_description(class_ = 'form-control', autofocus = true, placeholder='description if seeking talent') }}
         </div>
       <input type="submit" value="Create Venue" class="btn btn-primary btn-lg btn-block">
     </form>

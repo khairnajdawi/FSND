@@ -1,0 +1,81 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Edit Artist Time{% endblock %}
+{% block content %}
+<style>
+	.hidden{
+		display: none;
+	}
+	#delete_error{
+		background:red;
+		color:white;
+		margin:5px;
+		padding:0px 5px;
+	}
+</style>
+  <div class="form-wrapper">
+      <a href="/artists/{{artist.id}}">&lt; back to artist info</a>
+    <form class="form" method="post" action="">
+      <h3 class="form-heading">Edit artist <em>{{ artist.name }}</em></h3>
+      <div class="form-group">
+        <label for="day_of_week">Day of week</label>
+        {{ form.day_of_week(class_ = 'form-control', autofocus = true) }}
+      </div>
+      <div class="form-group">
+        <label for="start_time">From (Time)</label>
+        {{ form.start_time(class_ = 'form-control', autofocus = true,type="time") }}
+      </div>
+      <div class="form-group">
+        <label for="end_time">To (Time)</label>
+        {{ form.end_time(class_ = 'form-control', autofocus = true,type="time") }}
+      </div>
+      <input type="submit" value="Add Time" class="btn btn-primary btn-lg btn-block">
+    </form>
+  </div>
+  <div class=" col-md-6">
+      <h4>Available Times : </h4>
+      <div id="delete_error" class="hidden">Error deleting venue</div>
+      <table class="table table-bordered table-hovered">
+          <tr>
+              <th>Day</th>
+              <th>From</th>
+              <th>To</th>
+              <th></th>
+          </tr>
+      {% for atime in artist.available_times %}
+        <tr>
+            <td>{{days_names[atime.day_of_week]}}</td>
+            <td>{{atime.start_time}}</td>
+            <td>{{atime.end_time}}</td>
+            <td><button type="button" class="btn btn-danger" onclick="delete_time(this,{{atime.id}});">&cross;</button></td>
+        </tr>          
+      {% endfor %}
+      </table>
+  </div>
+  <script>
+      function delete_time(btn,time_id){
+        fetch('/artisttime/'+time_id+'',{
+			method:"DELETE",
+			body:{'time_id':time_id},
+			headers:{
+				'Content-Type':'application/json'
+			}
+		})
+		.then(function(response){
+			return response.json();
+		})
+		.then(function(json_response){
+			console.log(json_response);
+			if(json_response['deleted']){
+				btn.parentElement.parentElement.remove()
+				document.getElementById("delete_error").className='hidden';
+			}else{
+				document.getElementById("delete_error").className='';
+			}
+		})
+		.catch(function(exc){
+            console.log(exc)
+			document.getElementById("delete_error").className='';
+		});
+      }
+  </script>
+{% endblock %}

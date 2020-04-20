@@ -1,6 +1,8 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Fyyur | Artists{% endblock %}
 {% block content %}
+<a href="/artists/create" class="btn btn-default"><i class="fas fa-plus"></i> Post an Artist</a>
+<br>
 <ul class="items">
 	{% for artist in artists %}
 	<li>

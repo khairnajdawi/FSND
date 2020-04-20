@@ -1,6 +1,7 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Fyyur | Venues{% endblock %}
 {% block content %}
+<a href="/venues/create" class="btn btn-default"><i class="fas fa-plus"></i> Post a Venue</a>
 {% for area in areas %}
 <h3>{{ area.city }}, {{ area.state }}</h3>
 	<ul class="items">
@@ -10,6 +11,7 @@
 				<i class="fas fa-music"></i>
 				<div class="item">
 					<h5>{{ venue.name }}</h5>
+					<small>{{venue.num_upcoming_shows}} upcomping shows</small>
 				</div>
 			</a>
 		</li>

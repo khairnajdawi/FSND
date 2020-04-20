@@ -1,11 +1,25 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Venue Search{% endblock %}
 {% block content %}
+<style>
+	.hidden{
+		display: none;
+	}
+	#delete_error{
+		background:red;
+		color:white;
+		margin:5px;
+		padding:0px 5px;
+	}
+</style>
 <div class="row">
 	<div class="col-sm-6">
 		<h1 class="monospace">
 			{{ venue.name }}
 		</h1>
+		<a href="/venues/{{venue.id}}/edit" class="btn btn-default">Edit Venue</a>
+		<input type="button" class="btn btn-danger" data-id="{{venue.id}}" id="delete_button" value="Delete">
+		<div id="delete_error" class="hidden">Error deleting venue</div>
 		<p class="subtitle">
 			ID: {{ venue.id }}
 		</p>
@@ -74,6 +88,33 @@
 		{% endfor %}
 	</div>
 </section>
-
+<script>
+	const btn = document.querySelector("#delete_button");
+	btn.onclick = function(e){
+		venue_id = e.target.dataset['id'];
+		fetch('/venues/'+venue_id+'',{
+			method:"DELETE",
+			body:{'venue_id':venue_id},
+			headers:{
+				'Content-Type':'application/json'
+			}
+		})
+		.then(function(response){
+			return response.json();
+		})
+		.then(function(json_response){
+			console.log(json_response);
+			if(json_response['deleted']){
+				window.location.href="/"
+			}else{
+				document.getElementById("delete_error").className='';
+			}
+		})
+		.catch(function(){
+			document.getElementById("delete_error").className='';
+		});
+	}
+	
+</script>
 {% endblock %}
 
