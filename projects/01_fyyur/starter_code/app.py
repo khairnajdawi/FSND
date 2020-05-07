@@ -39,7 +39,7 @@ class Shows(db.Model):
     start_time = db.Column(db.DateTime,nullable=False)
 
     def __repr__(self):
-      return f'<Show {self.id}>'
+      return f"<Show {self.id} >"
 
 class AvailableTimes(db.Model):
     __tablename__="AvailableTimes"
