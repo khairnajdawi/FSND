@@ -7,6 +7,7 @@ import {
 
 // import logo from './logo.svg';
 import './stylesheets/App.css';
+import './bootstrap/css/bootstrap.css';
 import FormView from './components/FormView';
 import QuestionView from './components/QuestionView';
 import Header from './components/Header';

@@ -70,11 +70,11 @@ class FormView extends Component {
         <form className="form-view" id="add-question-form" onSubmit={this.submitQuestion}>
           <label>
             Question
-            <input type="text" name="question" onChange={this.handleChange}/>
+            <textarea style={{resize:'vertical'}} name="question" required onChange={this.handleChange}/>
           </label>
           <label>
             Answer
-            <input type="text" name="answer" onChange={this.handleChange}/>
+            <input type="text" name="answer" required onChange={this.handleChange}/>
           </label>
           <label>
             Difficulty
@@ -91,7 +91,7 @@ class FormView extends Component {
             <select name="category" onChange={this.handleChange}>
               {Object.keys(this.state.categories).map(id => {
                   return (
-                    <option key={id} value={id}>{this.state.categories[id]}</option>
+                    <option key={id} value={this.state.categories[id].id}>{this.state.categories[id].type}</option>
                   )
                 })}
             </select>

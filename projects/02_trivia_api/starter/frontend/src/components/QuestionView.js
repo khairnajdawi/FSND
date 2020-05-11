@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import '../stylesheets/App.css';
+import '../stylesheets/Question.css';
 import Question from './Question';
 import Search from './Search';
 import $ from 'jquery';
@@ -41,7 +42,13 @@ class QuestionView extends Component {
   }
 
   selectPage(num) {
-    this.setState({page: num}, () => this.getQuestions());
+    this.setState({page: num}, () => {
+      if (this.state.currentCategory){
+        this.getByCategory(this.state.currentCategory)
+      }else{
+        this.getQuestions()
+      }
+    });
   }
 
   createPagination(){
@@ -60,7 +67,7 @@ class QuestionView extends Component {
 
   getByCategory= (id) => {
     $.ajax({
-      url: `/categories/${id}/questions`, //TODO: update request URL
+      url: `/categories/${id}/questions?page=${this.state.page}`, //TODO: update request URL
       type: "GET",
       success: (result) => {
         this.setState({
@@ -78,7 +85,7 @@ class QuestionView extends Component {
 
   submitSearch = (searchTerm) => {
     $.ajax({
-      url: `/questions`, //TODO: update request URL
+      url: `/search`, //TODO: update request URL
       type: "POST",
       dataType: 'json',
       contentType: 'application/json',
@@ -125,10 +132,10 @@ class QuestionView extends Component {
         <div className="categories-list">
           <h2 onClick={() => {this.getQuestions()}}>Categories</h2>
           <ul>
-            {Object.keys(this.state.categories).map((id, ) => (
-              <li key={id} onClick={() => {this.getByCategory(id)}}>
-                {this.state.categories[id]}
-                <img className="category" src={`${this.state.categories[id]}.svg`}/>
+            {Object.keys(this.state.categories).map((index, ) => (
+              <li key={index} onClick={() => {this.getByCategory(this.state.categories[index].id)}}>
+                <img className="category" src={`${this.state.categories[index].id}.svg`}/>
+                &nbsp;{this.state.categories[index].type}
               </li>
             ))}
           </ul>
@@ -141,7 +148,7 @@ class QuestionView extends Component {
               key={q.id}
               question={q.question}
               answer={q.answer}
-              category={this.state.categories[q.category]} 
+              category={q.category} 
               difficulty={q.difficulty}
               questionAction={this.questionAction(q.id)}
             />

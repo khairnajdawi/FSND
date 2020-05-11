@@ -7,9 +7,19 @@
   flex-basis: 25%;
   flex-shrink: 2;
 }
+.categories-list  li{
+  padding: 10px 20px;
+  text-align:left;
+  vertical-align: middle;
+  cursor:pointer;
 
+}
+.categories-list  li img.category{
+  vertical-align: middle;
+  width:20px;
+}
 .categories-list > form {
-  width: 60%;
+  width: 80%;
 }
 
 .questions-list {
@@ -39,13 +49,12 @@
 }
 
 .answer-holder {
-  font-size: 25px;
-  height: 25px;
+  font-size: 15px;
+  height: 15px;
   margin: 5px 0px;
 }
 
 .show-answer {
-  width: 100px;
   margin-top: 5px;
   background-color: dodgerblue;
   color: white;

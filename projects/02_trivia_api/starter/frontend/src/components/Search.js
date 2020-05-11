@@ -19,12 +19,13 @@ class Search extends Component {
   render() {
     return (
       <form onSubmit={this.getInfo}>
-        <input
+        <textarea
+          style={{resize:'vertical'}}
           placeholder="Search questions..."
           ref={input => this.search = input}
           onChange={this.handleInputChange}
         />
-        <input type="submit" value="Submit" className="button"/>
+        <input type="submit" value="Search" className="btn btn-primary"/>
       </form>
     )
   }
