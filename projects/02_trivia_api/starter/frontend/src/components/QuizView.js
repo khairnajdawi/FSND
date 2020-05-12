@@ -102,20 +102,31 @@ class QuizView extends Component {
   renderPrePlay(){
       return (
           <div className="quiz-play-holder">
-              <div className="choose-header">Choose Category</div>
-              <div className="category-holder">
-                  <div className="play-category" onClick={this.selectCategory}>ALL</div>
-                  {Object.keys(this.state.categories).map(id => {
-                  return (
-                    <div
-                      key={this.state.categories[id].id}
-                      value={this.state.categories[id].id}
-                      className="play-category"
-                      onClick={() => this.selectCategory({type:this.state.categories[id].type, id:this.state.categories[id].id})}>
-                      {this.state.categories[id].type}
-                    </div>
-                  )
-                })}
+              <div className="choose-header d-flex justify-content-center">Choose Category</div>
+                  <div className="row  d-flex justify-content-center">
+                  <div className="col col-md-4 mb-4">
+                  <div className="card">
+                    <div className="play-category" onClick={this.selectCategory}>ALL</div>
+                  </div>
+                  </div>
+                  </div>
+                <div className="row row-cols-2 row-cols-md-3">
+                  {Object.keys(this.state.categories).map(index => {
+                    return (
+                      <div className="col col-md-4 mb-4"
+                        key={this.state.categories[index].id}
+                        value={this.state.categories[index].id}
+                        onClick={() => this.selectCategory({type:this.state.categories[index].type, id:this.state.categories[index].id})}
+                        >
+                      <div className="card">
+                      <div className="play-category card-body">                      
+                        <img className="category" src={`${this.state.categories[index].id}.svg`}/> &nbsp;&nbsp;
+                        {this.state.categories[index].type}
+                      </div>
+                      </div>
+                      </div>
+                    )
+                  })}
               </div>
           </div>
       )
@@ -125,7 +136,7 @@ class QuizView extends Component {
     return(
       <div className="quiz-play-holder">
         <div className="final-header"> Your Final Score is {this.state.numCorrect}</div>
-        <div className="play-again button" onClick={this.restartGame}> Play Again? </div>
+        <div className="play-again button btn btn-primary" onClick={this.restartGame}> Play Again? </div>
       </div>
     )
   }
@@ -144,7 +155,7 @@ class QuizView extends Component {
         <div className="quiz-question">{this.state.currentQuestion.question}</div>
         <div className={`${evaluate ? 'correct' : 'wrong'}`}>{evaluate ? "You were correct!" : "You were incorrect"}</div>
         <div className="quiz-answer">{this.state.currentQuestion.answer}</div>
-        <div className="next-question button" onClick={this.getNextQuestion}> Next Question </div>
+        <div className="next-question button btn btn-primary" onClick={this.getNextQuestion}> Next Question </div>
       </div>
     )
   }
@@ -159,7 +170,7 @@ class QuizView extends Component {
             <div className="quiz-question">{this.state.currentQuestion.question}</div>
             <form onSubmit={this.submitGuess}>
               <input type="text" name="guess" onChange={this.handleChange}/>
-              <input className="submit-guess button" type="submit" value="Submit Answer" />
+              <input className="submit-guess button btn btn-primary" type="submit" value="Submit Answer" />
             </form>
           </div>
         )

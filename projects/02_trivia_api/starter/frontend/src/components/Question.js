@@ -18,12 +18,12 @@ class Question extends Component {
     return (
       <div className="card " style={{margin:'10px'}}>
         <div className="card-header">
-          <img className="category" src={`${category}.svg`}/>
+          <img className="category" src={`${category}.svg`}/> &nbsp;&nbsp;
           <a>Difficulty: {difficulty}</a></div>
         <div className="card-body">
         {question} 
         <br></br>
-        <div className="show-answer btn btn-default"
+        <div className="show-answer btn btn-default btn-sm"
             onClick={() => this.flipVisibility()}>
             {this.state.visibleAnswer ? 'Hide' : 'Show'} Answer
           </div>

@@ -67,36 +67,44 @@ class FormView extends Component {
     return (
       <div id="add-form">
         <h2>Add a New Trivia Question</h2>
-        <form className="form-view" id="add-question-form" onSubmit={this.submitQuestion}>
-          <label>
-            Question
-            <textarea style={{resize:'vertical'}} name="question" required onChange={this.handleChange}/>
-          </label>
-          <label>
-            Answer
-            <input type="text" name="answer" required onChange={this.handleChange}/>
-          </label>
-          <label>
-            Difficulty
-            <select name="difficulty" onChange={this.handleChange}>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-          </label>
-          <label>
-            Category
-            <select name="category" onChange={this.handleChange}>
-              {Object.keys(this.state.categories).map(id => {
-                  return (
-                    <option key={id} value={this.state.categories[id].id}>{this.state.categories[id].type}</option>
-                  )
-                })}
-            </select>
-          </label>
-          <input type="submit" className="button" value="Submit" />
+        <form className="form-view col-md-6" id="add-question-form" onSubmit={this.submitQuestion}>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="span1">Question</span>
+          </div>
+          <textarea  name="question"  required onChange={this.handleChange} style={{resize:'vertical'}} class="form-control" placeholder="enter question" aria-label="Question" aria-describedby="span1"></textarea>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="span2">Answer</span>
+          </div>
+          <input type="text"  name="answer" required onChange={this.handleChange} class="form-control" placeholder="Answer" aria-label="Answer" aria-describedby="span2"></input>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="span2">Difficulty</span>
+          </div>
+          <select name="difficulty" onChange={this.handleChange}  class="form-control" >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="span2">Difficulty</span>
+          </div>
+          <select name="category" onChange={this.handleChange}  class="form-control">
+            {Object.keys(this.state.categories).map(id => {
+                return (
+                  <option key={id} value={this.state.categories[id].id}>{this.state.categories[id].type}</option>
+                )
+              })}
+          </select>
+        </div>
+          <input type="submit" className="btn btn-primary" value="Add Question" />
         </form>
       </div>
     );
