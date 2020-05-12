@@ -79,14 +79,259 @@ DELETE ...
 GET '/categories'
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
-- Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
-{'1' : "Science",
-'2' : "Art",
-'3' : "Geography",
-'4' : "History",
-'5' : "Entertainment",
-'6' : "Sports"}
+- Returns: A boolean success, and an object with a single key, categories, that contains a object of id: category_string key:value pairs. 
+- request example : curl http://localhost:5000/categories
+- response sample : 
+{
+  "categories": [
+    {
+      "id": 1, 
+      "type": "Science"
+    }, 
+    {
+      "id": 2, 
+      "type": "Art"
+    }, 
+    {
+      "id": 3, 
+      "type": "Geography"
+    }, 
+    {
+      "id": 4, 
+      "type": "History"
+    }, 
+    {
+      "id": 5, 
+      "type": "Entertainment"
+    }, 
+    {
+      "id": 6, 
+      "type": "Sports"
+    }
+  ], 
+  "success": true
+}
 
+GET /questions
+- fetchs a list of questions, paginated as 10 questions per page
+- Request Arguments: page (optional), specifying page number for pagination, default is 1
+- returns a boolean success, total questions , a list of 10 questions or less on the current page, current selected category, and a list of all categories
+- request example : curl  http://localhost:5000/questions?page=2 
+- response example : 
+{
+  "categories": [
+    {
+      "id": 1, 
+      "type": "Science"
+    }, 
+    {
+      "id": 2, 
+      "type": "Art"
+    }, 
+    {
+      "id": 3, 
+      "type": "Geography"
+    }, 
+    {
+      "id": 4, 
+      "type": "History"
+    }, 
+    {
+      "id": 5, 
+      "type": "Entertainment"
+    }, 
+    {
+      "id": 6, 
+      "type": "Sports"
+    }
+  ], 
+  "current_category": null, 
+  "questions": [
+    {
+      "answer": "Lake Victoria", 
+      "category": 3, 
+      "difficulty": 2, 
+      "id": 13, 
+      "question": "What is the largest lake in Africa?"
+    }, 
+    {
+      "answer": "George Washington Carver", 
+      "category": 4, 
+      "difficulty": 2, 
+      "id": 12, 
+      "question": "Who invented Peanut Butter?"
+    }, 
+    {
+      "answer": "Uruguay", 
+      "category": 6, 
+      "difficulty": 4, 
+      "id": 11, 
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    }, 
+    {
+      "answer": "Brazil", 
+      "category": 6, 
+      "difficulty": 3, 
+      "id": 10, 
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
+    }, 
+    {
+      "answer": "Muhammad Ali", 
+      "category": 4, 
+      "difficulty": 1, 
+      "id": 9, 
+      "question": "What boxer's original name is Cassius Clay?"
+    }, 
+    {
+      "answer": "Edward Scissorhands", 
+      "category": 5, 
+      "difficulty": 3, 
+      "id": 6, 
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    }, 
+    {
+      "answer": "Maya Angelou", 
+      "category": 4, 
+      "difficulty": 2, 
+      "id": 5, 
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    }, 
+    {
+      "answer": "Tom Cruise", 
+      "category": 5, 
+      "difficulty": 4, 
+      "id": 4, 
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    }, 
+    {
+      "answer": "Apollo 13", 
+      "category": 5, 
+      "difficulty": 4, 
+      "id": 2, 
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    }
+  ], 
+  "success": true, 
+  "total_questions": 19
+}
+
+DELETE /questions/{question_id}
+- Deletes a questions based on question id
+- Request Arguments: none
+- returns a boolean success, and id of deleted question
+- request example : curl -X DELETE http://localhost:5000/questions/2 
+- response example : 
+{
+  "deleted": 2, 
+  "success": true
+}
+
+POST /questions
+- creates a new questions
+- Request Argument : A String "Question", a string "Answer", an integer category id, and an integer difficuly
+- Returns a boolean success, and an integer of the new question's id
+- Request example : curl -X POST http://localhost:5000/questions -d '{"question":"What is .....","answer":"answer","category":"1","difficulty":"3"}' -H 'Content-Type:application/json'
+- Response sample : 
+{
+  "inserted": 24, 
+  "success": true
+}
+
+
+POST /search
+- searches for questions which has a "search Term" as a substring 
+- returns a boolean succes, total questions found, and a list of questions which has the "search Term" as a substring
+- request arguments : a string "searchTerm"
+- Request example : curl -X POST http://localhost:5000/search -d '{"searchTerm":"Who"}' -H 'Content-Type:application/json'
+- return sample : 
+{
+  "questions": [
+    {
+      "answer": "Alexander Fleming", 
+      "category": 1, 
+      "difficulty": 3, 
+      "id": 21, 
+      "question": "Who discovered penicillin?"
+    }, 
+    {
+      "answer": "George Washington Carver", 
+      "category": 4, 
+      "difficulty": 2, 
+      "id": 12, 
+      "question": "Who invented Peanut Butter?"
+    }, 
+    {
+      "answer": "Maya Angelou", 
+      "category": 4, 
+      "difficulty": 2, 
+      "id": 5, 
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    }
+  ], 
+  "success": true, 
+  "total_questions": 3
+}
+
+
+GET /categories/{category_id}/questions
+- fitches a list of questions that is in a specific category, questions are paged in 10 questions per page
+- request arguments : optional int "page" as page number, default is 1
+- returns a succes boolean, an integer total questions, a list of 10 questions or less in the current page, and an integer current category id
+- request example : curl http://localhost:5000/categories/2/questions
+- response sample : 
+{
+  "current_category": 2, 
+  "questions": [
+    {
+      "answer": "Jackson Pollock", 
+      "category": 2, 
+      "difficulty": 2, 
+      "id": 19, 
+      "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
+    }, 
+    {
+      "answer": "One", 
+      "category": 2, 
+      "difficulty": 4, 
+      "id": 18, 
+      "question": "How many paintings did Van Gogh sell in his lifetime?"
+    }, 
+    {
+      "answer": "Mona Lisa", 
+      "category": 2, 
+      "difficulty": 3, 
+      "id": 17, 
+      "question": "La Giaconda is better known as what?"
+    }, 
+    {
+      "answer": "Escher", 
+      "category": 2, 
+      "difficulty": 1, 
+      "id": 16, 
+      "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
+    }
+  ], 
+  "success": true, 
+  "total_questions": 4
+}
+
+
+POST /quizzes
+- fitches a question from the list of all questions that is in a spcific category if specified, and not in the list of previous selected questions
+- request argument : a list of previous questions' ids, and an object of category
+- returns a success boolean and an object of question if there is a question to select or none if there isn't
+- request sample : curl -X POST http://localhost:5000/quizzes -H 'Content-Type:application/json' -d '{"previous_questions":[],"quiz_category":{"type":"Science","id":1}}' 
+- response sample : 
+{
+  "question": {
+    "answer": "The Liver", 
+    "category": 1, 
+    "difficulty": 4, 
+    "id": 20, 
+    "question": "What is the heaviest organ in the human body?"
+  }, 
+  "success": true
+}
 ```
 
 

@@ -233,33 +233,37 @@ def create_app(test_config=None):
   #end point to get a question to play
   @app.route('/quizzes',methods=['POST'])
   def get_quize_questions():
-    #get request data, to read category id if exist and previous questions
-    body = request.get_json()
-    #get category if exist
-    category = body.get('quiz_category',None)
-    #get previous questions list
-    previous_questions = body.get('previous_questions',None)
-    #get all questions to choose from
-    all_questions = Question.query
-    #if there is previous questions, then filter questions removing previous ones
-    if(previous_questions):
-      all_questions = all_questions.filter(~Question.id.in_(previous_questions))
+    try:
+      #get request data, to read category id if exist and previous questions
+      body = request.get_json()
+      #get category if exist
+      category = body.get('quiz_category',None)
+      #get previous questions list
+      previous_questions = body.get('previous_questions',None)
+      #get all questions to choose from
+      all_questions = Question.query
+      #if there is previous questions, then filter questions removing previous ones
+      if(previous_questions):
+        all_questions = all_questions.filter(~Question.id.in_(previous_questions))
 
-    #check if a category is choosen, i.e category id is larger than 0 (0 for all categories)
-    if(category['id']>0):
-      #if category is choosen, then filter question based on this category
-      question = all_questions.filter(Question.category==category['id']).first()
-    else:
-      #no category is choosen, get first question
-      question = all_questions.first()
+      #check if a category is choosen, i.e category id is larger than 0 (0 for all categories)
+      if(category['id']>0):
+        #if category is choosen, then filter question based on this category
+        question = all_questions.filter(Question.category==category['id']).first()
+      else:
+        #no category is choosen, get first question
+        question = all_questions.first()
 
-    #return json response for selected question    
-    return jsonify(
-      {
-        'success':True,
-        'question':question.format() if question else None
-      }
-    )
+      #return json response for selected question    
+      return jsonify(
+        {
+          'success':True,
+          'question':question.format() if question else None
+        }
+      )
+    except:
+      abort(500)
+
   '''
   @TODO: 
   Create error handlers for all expected errors 
@@ -301,6 +305,15 @@ def create_app(test_config=None):
       "message": "method not allowed"
       }), 405
   
+  # #error handler for 500 
+  # @app.errorhandler(500)
+  # def bad_request(error):
+  #   return jsonify({
+  #     "success": False, 
+  #     "error": 500,
+  #     "message": "internal server error"
+  #     }), 500
+      
   return app
 
     
